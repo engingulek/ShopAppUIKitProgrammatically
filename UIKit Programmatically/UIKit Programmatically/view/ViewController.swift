@@ -8,21 +8,19 @@
 import UIKit
 import RxSwift
 import RxCocoa
-final class ViewController: UIViewController {
+final class ViewController: UIViewController,CollecrtionViewCellProtocol {
+  
+    
     private let disposeBag = DisposeBag()
     
     private lazy var viewSize = view.frame.size
     
-    private lazy var collectionViewTestList : Observable<[String]> = {
-        let item = "Item 1"
-        let item2 = "Item 2"
-        let item3 = "Item 3"
-        let item4 = "Item 4"
-        let item5 = "Item 5"
-        let item6 = "Item 6"
-        let item7 = "Item 7"
+    private lazy var collectionViewTestList : Observable<[Product]> = {
+       let product1 = Product(id: 1, title: "Product Nmae 1", priece: "1", category: "Category Name 1", description: "Des 1", image: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png")
         
-        return .just([item,item2,item3,item4,item5,item6,item7,item2,item3,item4,item5,item6,item7])
+        let product2 = Product(id: 2, title: "Product Nmae 2", priece: "2", category: "Category Name 2", description: "Des 2", image: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png")
+        
+        return .just([product1,product2])
         
     }()
     
@@ -111,23 +109,43 @@ final class ViewController: UIViewController {
             .disposed(by: disposeBag)
         
         
+        
+        
         collectionViewTestList
             .bind(to: collectionView
                     .rx
                     .items(cellIdentifier: "cell", cellType: CollectionViewCell.self)) { row, element, cell in
-                        
-                  }
+                        cell.configureCell(product: element)
+                        cell.contentView.isUserInteractionEnabled = false
+                        cell.index = row
+                        cell.cellProtocol = self
+                    }
                   .disposed(by: disposeBag)
         
+        /*collectionView.rx.itemSelected.subscribe { item in
+            print(item.element?.row)
+        }*/
         
-        button.addTarget(self, action: #selector(searchList), for: .touchUpInside)
+        
+       // button.addTarget(self, action: #selector(searchList), for: .touchUpInside)
+        button.rx.tap.subscribe { _ in
+            print("Categori Buttonuna tıklandı")
+        }.disposed(by: disposeBag)
         configure()
         
     }
     
     
-    @objc func searchList() {
+    func addCartProduct(index: Int) {
+        print(index)
     }
+    
+    
+    @objc func searchList() {
+        
+    }
+    
+    
     
     
     func configure(){
@@ -169,23 +187,6 @@ final class ViewController: UIViewController {
 
         
         ])
-       
-        
-        
-
-    
-    
-        
-        
-  
-        
-        
-        
-        
-        
-        
-        
-        
     }
 }
 

@@ -8,8 +8,19 @@
 import UIKit
 import Kingfisher
 import RxSwift
-final class CollectionViewCell : UICollectionViewCell {
-    static let identifer = "CollectionViewCell"
+import RxCocoa
+
+
+protocol CollecrtionViewCellProtocol {
+    func addCartProduct(index:Int)
+}
+
+
+ class CollectionViewCell : UICollectionViewCell {
+
+    
+      let disposeBagCell = DisposeBag()
+    
    private let productionImage : UIImageView = {
         let image = UIImageView()
         image.kf.setImage(with: URL(string: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png"))
@@ -44,7 +55,7 @@ final class CollectionViewCell : UICollectionViewCell {
     }()
     
     
-    private let addCartButton : UIButton = {
+   let addCartButton : UIButton = {
         
         let button = UIButton()
         button.backgroundColor = .blue
@@ -54,21 +65,19 @@ final class CollectionViewCell : UICollectionViewCell {
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
         button.layer.cornerRadius = 15
         return button
-        /*let button = UIButton()
-        button.backgroundColor = .blue
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.text = "Add Button"
-        button.setTitleColor(.white, for: .)
-        button.layer.cornerRadius = 15
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .subheadline)
-        return button*/
     }()
-    
-    
-    
-    
+     
+     
+     
+     var cellProtocol : CollecrtionViewCellProtocol?
+     var index : Int?
+
+
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        
+        
         // contentView.  diyerek burada ekle
         addSubview(productionImage)
         addSubview(productionTitle)
@@ -79,12 +88,30 @@ final class CollectionViewCell : UICollectionViewCell {
         contentView.layer.borderWidth = 1
         contentView.layer.borderColor = UIColor.lightGray.cgColor
         contentView.layer.cornerRadius = 10
+     
+        
+        
+        addCartButton.rx.tap.subscribe { _ in
+            self.cellProtocol?.addCartProduct(index: self.index!)
+        }.disposed(by: disposeBagCell)
     }
+     
+
+     
+ 
+     
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureCell(product:Product){
+        productionTitle.text = product.title
+        productionCategory.text = product.category
+        productionPrice.text = product.priece
+        productionImage.kf.setImage(with: URL(string: product.image))
+
+    }
     override func layoutSubviews() {
         
         productionImage.translatesAutoresizingMaskIntoConstraints = false
@@ -128,12 +155,6 @@ final class CollectionViewCell : UICollectionViewCell {
             addCartButton.leftAnchor.constraint(equalTo: contentView.leftAnchor,constant: 10),
             addCartButton.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -10),
             addCartButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            
-            
-            
-            
-            
-            
             
         ])
         
