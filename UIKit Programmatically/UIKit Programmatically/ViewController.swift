@@ -66,17 +66,13 @@ final class ViewController: UIViewController {
     private let collectionView  : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        
-        
-        
         layout.sectionInset = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 10)
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
-        layout.itemSize = CGSize(width: 160, height: 200)
+        layout.itemSize = CGSize(width: 160, height: 260)
+        
         let collectionView = UICollectionView(frame: .infinite,collectionViewLayout: layout)
         collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
-        collectionView.backgroundColor = .black
-        
         
         return collectionView
         
@@ -118,8 +114,8 @@ final class ViewController: UIViewController {
         collectionViewTestList
             .bind(to: collectionView
                     .rx
-                    .items(cellIdentifier: "cell", cellType: CollectionViewCell.self)) { row, element, cell in // 3
-                        cell.backgroundColor = .red
+                    .items(cellIdentifier: "cell", cellType: CollectionViewCell.self)) { row, element, cell in
+                        
                   }
                   .disposed(by: disposeBag)
         
@@ -135,41 +131,58 @@ final class ViewController: UIViewController {
     
     
     func configure(){
-        // MARK: - Title UILabel
+        
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20).isActive = true
-        titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        //MARK: - UITextField
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 30).isActive = true
-        textField.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 20).isActive = true
-        textField.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -20).isActive = true
-        textField.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        textField.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        
-        //MARK: -Warning Label
         warningLabel.translatesAutoresizingMaskIntoConstraints = false
-        warningLabel.topAnchor.constraint(equalTo: textField.bottomAnchor,constant: 5).isActive = true
-        warningLabel.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 20).isActive = true
-        warningLabel.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -20).isActive = true
-        
-        // MARK: - UIButtom
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.topAnchor.constraint(equalTo: warningLabel.bottomAnchor,constant: 35).isActive = true
-        button.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 50).isActive = true
-        button.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -50).isActive = true
-        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        
-        
-        //MARK: CollectionView
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.topAnchor.constraint(equalTo: button.bottomAnchor,constant: 30).isActive = true
-        collectionView.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 5).isActive = true
-        collectionView.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -5).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -10).isActive = true
-        collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            // MARK: - Title UILabel
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 20),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            //MARK: - UITextField
+            textField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,constant: 20),
+            textField.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 20),
+            textField.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -20),
+            textField.heightAnchor.constraint(equalToConstant: 30),
+            textField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            //MARK: -Warning Label
+            warningLabel.topAnchor.constraint(equalTo: textField.bottomAnchor,constant: 5),
+            warningLabel.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 20),
+            warningLabel.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -20),
+            
+            // MARK: - UIButtom
+            button.topAnchor.constraint(equalTo: warningLabel.bottomAnchor,constant: 20),
+            button.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 50),
+            button.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -50),
+            button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            //MARK: CollectionView
+            collectionView.topAnchor.constraint(equalTo: button.bottomAnchor,constant: 30),
+            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor,constant: 5),
+            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor,constant: -5),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: -10),
+            collectionView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+
+        
+        ])
+       
+        
+        
+
+    
+    
+        
+        
+  
+        
+        
+        
+        
+        
         
         
         
