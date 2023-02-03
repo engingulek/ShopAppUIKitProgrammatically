@@ -58,13 +58,7 @@ protocol CollecrtionViewCellProtocol {
    let addCartButton : UIButton = {
         
         let button = UIButton()
-        button.backgroundColor = .blue
-        button.titleLabel?.textAlignment = .center
-        button.setTitle("Add Cart", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .callout)
-        button.layer.cornerRadius = 15
-        return button
+       return button.addCartButton(backColor: .red)
     }()
      
      

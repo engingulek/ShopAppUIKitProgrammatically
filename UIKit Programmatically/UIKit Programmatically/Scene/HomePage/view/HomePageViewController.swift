@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-final class ViewController: UIViewController,CollecrtionViewCellProtocol {
+final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol {
   
     
     private let disposeBag = DisposeBag()
@@ -55,7 +55,7 @@ final class ViewController: UIViewController,CollecrtionViewCellProtocol {
         button.backgroundColor = .red
         button.setTitleColor(.lightGray, for: .disabled)
         button.titleLabel?.textAlignment = .center
-        button.setTitle("Click", for: .normal)
+        button.setTitle("Category", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 15
         return button
@@ -88,6 +88,7 @@ final class ViewController: UIViewController,CollecrtionViewCellProtocol {
         view.addSubview(button)
         view.addSubview(warningLabel)
         view.addSubview(collectionView)
+        navigationItem.title = "Home Page"
         
         
         // Eğer işlemler gerçekleşir ise newTextField True değerini alacak ve bu değer ile button aktif olup olmama durumu kontrol edilecek
@@ -100,9 +101,9 @@ final class ViewController: UIViewController,CollecrtionViewCellProtocol {
             .share()
             .throttle(.milliseconds(100), scheduler: MainScheduler.instance)
         
-        newTextField
+       /*newTextField
             .bind(to: button.rx.isEnabled)
-            .disposed(by: disposeBag)
+            .disposed(by: disposeBag)*/
         
         newTextField
             .bind(to: warningLabel.rx.isHidden)
@@ -122,9 +123,14 @@ final class ViewController: UIViewController,CollecrtionViewCellProtocol {
                     }
                   .disposed(by: disposeBag)
         
-        /*collectionView.rx.itemSelected.subscribe { item in
-            print(item.element?.row)
-        }*/
+        collectionView.rx.itemSelected.subscribe(onNext : { product in
+            self.navigationController?.pushViewController(DetailViewController(), animated: true)
+           
+            
+            if let  selectedItemsIndexPath = self.collectionView.indexPathsForSelectedItems {
+                self.collectionView.deleteItems(at: selectedItemsIndexPath)
+            }
+        }).disposed(by: disposeBag)
         
         
        // button.addTarget(self, action: #selector(searchList), for: .touchUpInside)
@@ -132,7 +138,6 @@ final class ViewController: UIViewController,CollecrtionViewCellProtocol {
             print("Categori Buttonuna tıklandı")
         }.disposed(by: disposeBag)
         configure()
-        
     }
     
     
