@@ -1,6 +1,15 @@
 {
   "pins" : [
     {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "revision" : "78424be314842833c04bc3bef5b72e85fff99204",
+        "version" : "5.6.4"
+      }
+    },
+    {
       "identity" : "kingfisher",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/onevcat/Kingfisher.git",
@@ -16,6 +25,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "91a36920b1ec069004fef9dc41b7c5dbcaa5fffe"
+      }
+    },
+    {
+      "identity" : "siesta",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/bustoutsolutions/siesta",
+      "state" : {
+        "branch" : "main",
+        "revision" : "4fcc9422d4994467bb185bfe45fec7f673269915"
       }
     }
   ],

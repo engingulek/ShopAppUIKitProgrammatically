@@ -138,6 +138,14 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
             print("Categori Buttonuna tıklandı")
         }.disposed(by: disposeBag)
         configure()
+        
+        
+        button.rx.tap.subscribe { _ in
+            self.present(CategoryViewController(), animated: true)
+        }.disposed(by: disposeBag)
+        
+        
+        
     }
     
     
