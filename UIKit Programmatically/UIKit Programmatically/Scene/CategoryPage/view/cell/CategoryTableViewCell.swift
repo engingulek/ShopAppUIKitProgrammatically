@@ -29,7 +29,7 @@ class CategoryTableViewCell: UITableViewCell {
     
     
     func configureCell(element:String) {
-        categoryLabel.text  = element
+        categoryLabel.text  = element.capitalized
     }
     
    
