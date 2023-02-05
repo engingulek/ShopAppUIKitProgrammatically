@@ -41,6 +41,7 @@ class CategoryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addSubview(tableViewCategory)
         view.addSubview(titleLabel)
         view.backgroundColor = .white

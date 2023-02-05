@@ -72,6 +72,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tabBarController?.tabBar.isHidden = true
         view.backgroundColor = .white
         navigationItem.title = "Detail Page"
         navigationItem.backButtonTitle = "Home Page"

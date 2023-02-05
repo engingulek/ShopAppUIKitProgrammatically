@@ -17,7 +17,9 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
     private lazy var viewSize = view.frame.size
     
 
+
     
+
     private let titleLabel : UILabel = {
         let label = UILabel()
         label.text = "Product Count"
@@ -76,14 +78,13 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-    
+        self.tabBarController?.tabBar.isHidden = false
         view.addSubview(titleLabel)
         view.addSubview(textField)
         view.addSubview(button)
         view.addSubview(warningLabel)
         view.addSubview(collectionView)
         navigationItem.title = "Home Page"
-        
         
         // Eğer işlemler gerçekleşir ise newTextField True değerini alacak ve bu değer ile button aktif olup olmama durumu kontrol edilecek
         /*let newTextField = textField
@@ -93,14 +94,6 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
             .debug("newTextField",trimOutput: true)
             .share()
             .throttle(.milliseconds(100), scheduler: MainScheduler.instance)*/
-        
-        /*newTextField.subscribe(onNext: { text in
-           
-            if text != "" {
-                HomePageViewModel.homePageViewModel.getProductSearch(searchText: text)
-            }
-            
-        }).disposed(by: disposeBag)*/
         
         textField.rx.controlEvent([.editingChanged])
             .asObservable().subscribe({ [unowned self] _ in
@@ -208,12 +201,15 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
         
         ])
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
 }
 
 extension HomePageViewController : SelectCategoryDelegate {
-    func selectCategory(category: String) { 
+    func selectCategory(category: String) {
         self.dismiss(animated: true) {
-            print("Yeni Test \(category)")
             HomePageViewModel.homePageViewModel.getProductFilterList(selectedCategory: category)
             self.collectionView.reloadData()
         }
@@ -221,4 +217,3 @@ extension HomePageViewController : SelectCategoryDelegate {
     
     
 }
-
