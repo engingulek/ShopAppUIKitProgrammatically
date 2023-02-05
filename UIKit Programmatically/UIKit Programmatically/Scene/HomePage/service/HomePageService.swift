@@ -20,6 +20,17 @@ class HomePageService {
                 
             }
         }
-        
+    }
+    
+    func fetchProductFilter(selectedCategory:String,completion:@escaping(Result<[Product],Error>)->()){
+        ServiceManager.serviceManager.fetch(target: .filterProduct(selectedCategory)) { (response:Result<[Product]?,Error>) in
+            switch response {
+            case .success(let list):
+                completion(.success(list!))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+            
+        }
     }
 }

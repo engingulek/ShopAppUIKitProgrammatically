@@ -8,8 +8,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+protocol SelectCategoryDelegate {
+    func selectCategory(category:String)
+}
+
 class CategoryViewController: UIViewController {
     let disposeBag = DisposeBag()
+    var delegate : SelectCategoryDelegate?
     let categoryListViewModel = CategoryListViewModel()
     let tableViewCategory : UITableView = {
         let tableView = UITableView()
@@ -42,11 +47,22 @@ class CategoryViewController: UIViewController {
         configure()
         
         
+        
+        
         categoryListViewModel.getCategoryList().bind(to: tableViewCategory
             .rx
             .items(cellIdentifier: "categoryCell",cellType: CategoryTableViewCell.self)) {row,element,cell in
                 cell.configureCell(element: element)
         }.disposed(by: disposeBag)
+        
+        
+        tableViewCategory.rx.modelSelected(String.self)
+            .subscribe(onNext : { category in
+            
+                self.delegate?.selectCategory(category: category)
+                    
+                
+            }).disposed(by: disposeBag)
     }
     
     

@@ -11,6 +11,7 @@ import Foundation
 enum Network {
     case products
     case categories
+    case filterProduct(String)
 }
 
 
@@ -26,6 +27,9 @@ extension Network : TargetType {
             return ""
         case .categories:
             return "categories"
+        case .filterProduct(let category):
+            return "category/\(category)"
+            
         }
     }
     
@@ -36,6 +40,8 @@ extension Network : TargetType {
             return .get
         case .categories:
             return .get
+        case .filterProduct(_):
+            return .get
         }
     }
     
@@ -45,6 +51,8 @@ extension Network : TargetType {
         case .products:
             return .requestPlain
         case .categories:
+            return .requestPlain
+        case .filterProduct(_):
             return .requestPlain
         }
     }

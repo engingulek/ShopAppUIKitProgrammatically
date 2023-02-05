@@ -12,23 +12,17 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
   
     
     private let disposeBag = DisposeBag()
+    var selectedCategory = ""
     
     private lazy var viewSize = view.frame.size
     
-    private lazy var collectionViewTestList : Observable<[Product]> = {
-        let product1 = Product(id: 1, title: "Product Nmae 1", price: 1.0, category: "Category Name 1", description: "Des 1", image: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png")
-        
-        let product2 = Product(id: 2, title: "Product Nmae 2", price: 2.0, category: "Category Name 2", description: "Des 2", image: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png")
-        
-        return .just([product1,product2])
-        
-    }()
+
     
     private let titleLabel : UILabel = {
         let label = UILabel()
-        label.text = "Title Label"
+        label.text = "Product Count"
         label.textColor = UIColor.red
-        label.font = UIFont.systemFont(ofSize: 30)
+        label.font = UIFont.systemFont(ofSize: 20)
         return label
     }()
     
@@ -92,24 +86,29 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
         
         
         // Eğer işlemler gerçekleşir ise newTextField True değerini alacak ve bu değer ile button aktif olup olmama durumu kontrol edilecek
-        let newTextField = textField
+        /*let newTextField = textField
             .rx
             .text
             .orEmpty
             .map{$0.count >= 6}
             .debug("newTextField",trimOutput: true)
             .share()
-            .throttle(.milliseconds(100), scheduler: MainScheduler.instance)
+            .throttle(.milliseconds(100), scheduler: MainScheduler.instance)*/
         
        /*newTextField
             .bind(to: button.rx.isEnabled)
             .disposed(by: disposeBag)*/
         
-        newTextField
+        /*newTextField
             .bind(to: warningLabel.rx.isHidden)
-            .disposed(by: disposeBag)
+            .disposed(by: disposeBag)*/
         
+        HomePageViewModel.homePageViewModel.productCount.subscribe(onNext: { count in
+            self.titleLabel.text = "\(count) Itens"
+            
+        }).disposed(by: disposeBag)
         HomePageViewModel.homePageViewModel.getProductList()
+        HomePageViewModel.homePageViewModel.productList
             .bind(to: collectionView
                     .rx
                     .items(cellIdentifier: "cell", cellType: CollectionViewCell.self)) { row, element, cell in
@@ -118,10 +117,7 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
                         cell.index = row
                         cell.cellProtocol = self
                     }
-                  .disposed(by: disposeBag)
-        
-        
-    
+                    .disposed(by: disposeBag)
         
         collectionView.rx.modelSelected(ProductVM.self)
             .subscribe(onNext : { product in
@@ -131,19 +127,16 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
                 
             }).disposed(by: disposeBag)
 
-        button.rx.tap.subscribe { _ in
-            print("Categori Buttonuna tıklandı")
-        }.disposed(by: disposeBag)
         configure()
         
         
         button.rx.tap.subscribe { _ in
-            self.present(CategoryViewController(), animated: true)
+            let controller = CategoryViewController()
+            controller.delegate = self
+            self.present(controller, animated: true)
         }.disposed(by: disposeBag)
-        
-        
-        
     }
+   
     
     
     func addCartProduct(index: Int) {
@@ -198,5 +191,17 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
         
         ])
     }
+}
+
+extension HomePageViewController : SelectCategoryDelegate {
+    func selectCategory(category: String) { 
+        self.dismiss(animated: true) {
+            print("Yeni Test \(category)")
+            HomePageViewModel.homePageViewModel.getProductFilterList(selectedCategory: category)
+            self.collectionView.reloadData()
+        }
+    }
+    
+    
 }
 
