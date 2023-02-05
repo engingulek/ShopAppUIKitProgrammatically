@@ -16,16 +16,16 @@ enum Network {
 
 extension Network : TargetType {
     var baseUrl: String {
-        return "https://fakestoreapi.com/"
+        return "https://fakestoreapi.com/products/"
     }
     
     var path: String {
         switch self {
             
         case .products:
-            return "products"
+            return ""
         case .categories:
-            return "products/categories"
+            return "categories"
         }
     }
     

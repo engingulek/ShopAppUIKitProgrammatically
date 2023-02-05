@@ -16,9 +16,9 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
     private lazy var viewSize = view.frame.size
     
     private lazy var collectionViewTestList : Observable<[Product]> = {
-       let product1 = Product(id: 1, title: "Product Nmae 1", priece: "1", category: "Category Name 1", description: "Des 1", image: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png")
+        let product1 = Product(id: 1, title: "Product Nmae 1", price: 1.0, category: "Category Name 1", description: "Des 1", image: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png")
         
-        let product2 = Product(id: 2, title: "Product Nmae 2", priece: "2", category: "Category Name 2", description: "Des 2", image: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png")
+        let product2 = Product(id: 2, title: "Product Nmae 2", price: 2.0, category: "Category Name 2", description: "Des 2", image: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png")
         
         return .just([product1,product2])
         
@@ -109,10 +109,7 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
             .bind(to: warningLabel.rx.isHidden)
             .disposed(by: disposeBag)
         
-        
-        
-        
-        collectionViewTestList
+        HomePageViewModel.homePageViewModel.getProductList()
             .bind(to: collectionView
                     .rx
                     .items(cellIdentifier: "cell", cellType: CollectionViewCell.self)) { row, element, cell in
@@ -122,6 +119,18 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
                         cell.cellProtocol = self
                     }
                   .disposed(by: disposeBag)
+        
+        
+       /* collectionViewTestList
+            .bind(to: collectionView
+                    .rx
+                    .items(cellIdentifier: "cell", cellType: CollectionViewCell.self)) { row, element, cell in
+                        cell.configureCell(product: element)
+                        cell.contentView.isUserInteractionEnabled = false
+                        cell.index = row
+                        cell.cellProtocol = self
+                    }
+                  .disposed(by: disposeBag)*/
         
         collectionView.rx.itemSelected.subscribe(onNext : { product in
             self.navigationController?.pushViewController(DetailViewController(), animated: true)

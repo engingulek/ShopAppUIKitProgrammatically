@@ -34,6 +34,7 @@ protocol CollecrtionViewCellProtocol {
         label.text = "Production Name"
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         label.textAlignment = .center
+        label.numberOfLines = 2
         return label
     }()
     
@@ -43,6 +44,7 @@ protocol CollecrtionViewCellProtocol {
         label.text = "Category Name"
         label.font = UIFont.preferredFont(forTextStyle: .footnote)
         label.textAlignment = .center
+        
         return label
     }()
     
@@ -99,11 +101,11 @@ protocol CollecrtionViewCellProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(product:Product){
+    func configureCell(product:ProductVM){
         productionTitle.text = product.title
         productionCategory.text = product.category
-        productionPrice.text = product.priece
         productionImage.kf.setImage(with: URL(string: product.image))
+        productionPrice.text = product.price
 
     }
     override func layoutSubviews() {
@@ -123,13 +125,14 @@ protocol CollecrtionViewCellProtocol {
             productionImage.leftAnchor.constraint(equalTo: contentView.leftAnchor,constant: 20),
             productionImage.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -20),
             productionImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            productionImage.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2),
+            productionImage.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2.5),
             
             /// Production Title
             productionTitle.topAnchor.constraint(equalTo: productionImage.bottomAnchor,constant: 5),
-            productionTitle.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            productionTitle.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            productionTitle.leftAnchor.constraint(equalTo: contentView.leftAnchor,constant: 10),
+            productionTitle.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -10),
             productionTitle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
             
             
             /// Production Category
