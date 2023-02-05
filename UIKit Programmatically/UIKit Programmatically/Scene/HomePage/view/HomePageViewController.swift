@@ -90,10 +90,27 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
             .rx
             .text
             .orEmpty
-            .map{$0.count >= 6}
             .debug("newTextField",trimOutput: true)
             .share()
             .throttle(.milliseconds(100), scheduler: MainScheduler.instance)*/
+        
+        /*newTextField.subscribe(onNext: { text in
+           
+            if text != "" {
+                HomePageViewModel.homePageViewModel.getProductSearch(searchText: text)
+            }
+            
+        }).disposed(by: disposeBag)*/
+        
+        textField.rx.controlEvent([.editingChanged])
+            .asObservable().subscribe({ [unowned self] _ in
+                if textField.text != ""{
+                    HomePageViewModel.homePageViewModel.getProductSearch(searchText: textField.text!)
+                }else{
+                    HomePageViewModel.homePageViewModel.getProductList()
+                }
+                
+            }).disposed(by: disposeBag)
         
        /*newTextField
             .bind(to: button.rx.isEnabled)
