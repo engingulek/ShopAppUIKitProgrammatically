@@ -121,28 +121,16 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
                   .disposed(by: disposeBag)
         
         
-       /* collectionViewTestList
-            .bind(to: collectionView
-                    .rx
-                    .items(cellIdentifier: "cell", cellType: CollectionViewCell.self)) { row, element, cell in
-                        cell.configureCell(product: element)
-                        cell.contentView.isUserInteractionEnabled = false
-                        cell.index = row
-                        cell.cellProtocol = self
-                    }
-                  .disposed(by: disposeBag)*/
+    
         
-        collectionView.rx.itemSelected.subscribe(onNext : { product in
-            self.navigationController?.pushViewController(DetailViewController(), animated: true)
-           
-            
-            if let  selectedItemsIndexPath = self.collectionView.indexPathsForSelectedItems {
-                self.collectionView.deleteItems(at: selectedItemsIndexPath)
-            }
-        }).disposed(by: disposeBag)
-        
-        
-       // button.addTarget(self, action: #selector(searchList), for: .touchUpInside)
+        collectionView.rx.modelSelected(ProductVM.self)
+            .subscribe(onNext : { product in
+                let dvc = DetailViewController()
+                dvc.selectedProduct = product
+                 self.navigationController?.pushViewController(dvc, animated: true)
+                
+            }).disposed(by: disposeBag)
+
         button.rx.tap.subscribe { _ in
             print("Categori Buttonuna tıklandı")
         }.disposed(by: disposeBag)

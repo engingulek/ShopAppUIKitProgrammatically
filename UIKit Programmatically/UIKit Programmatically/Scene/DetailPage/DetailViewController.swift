@@ -9,11 +9,13 @@ import UIKit
 import Kingfisher
 final class DetailViewController: UIViewController {
     
+    var selectedProduct : ProductVM?
+    
     
     //MARK: - UI'ların extension içerisinde tanımlanma örneği
     private let detailImage : UIImageView = {
         let image = UIImageView()
-        return image.detailImage
+                return image.detailImage
         
     }()
     private let addCartButton : UIButton = {
@@ -25,9 +27,9 @@ final class DetailViewController: UIViewController {
     private let titleProduct : UILabel = {
         let label = UILabel()
         label.text = "Product Name"
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
-        label.font = UIFont.systemFont(ofSize: 25,weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         label.textAlignment = .center
+        label.numberOfLines = 3
         return label
     }()
     
@@ -36,9 +38,9 @@ final class DetailViewController: UIViewController {
         
         let label = UILabel()
         label.text = "Product Category"
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
-        label.font = UIFont.systemFont(ofSize: 20,weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         label.textAlignment = .center
+       
         return label
         
     }()
@@ -48,8 +50,8 @@ final class DetailViewController: UIViewController {
         
         let label = UILabel()
         label.text = "$300"
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        label.font = UIFont.systemFont(ofSize: 20,weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 18, weight:.medium)
+        
         label.textAlignment = .center
         return label
         
@@ -74,12 +76,26 @@ final class DetailViewController: UIViewController {
         navigationItem.title = "Detail Page"
         navigationItem.backButtonTitle = "Home Page"
         addSubviewConfigure()
+        
+        dataConfigure()
         configure()
         
     }
     
     
-    func addSubviewConfigure(){
+    
+    private func dataConfigure(){
+        detailImage.kf.setImage(with: URL(string: selectedProduct!.image))
+        titleProduct.text = selectedProduct?.title
+        categoryProduct.text = selectedProduct?.category
+        priceProduct.text = selectedProduct?.price
+        descProduct.text = selectedProduct?.description
+        
+    }
+    
+
+    
+  private  func addSubviewConfigure(){
         view.addSubview(detailImage)
         view.addSubview(titleProduct)
         view.addSubview(categoryProduct)
@@ -88,7 +104,7 @@ final class DetailViewController: UIViewController {
         view.addSubview(addCartButton)
     }
     
-    func configure() {
+  private  func configure() {
         self.detailImage.translatesAutoresizingMaskIntoConstraints = false
         self.titleProduct.translatesAutoresizingMaskIntoConstraints = false
         self.categoryProduct.translatesAutoresizingMaskIntoConstraints = false
@@ -100,15 +116,15 @@ final class DetailViewController: UIViewController {
             
             detailImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 10),
             detailImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            detailImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 20),
-            detailImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -20),
-            detailImage.heightAnchor.constraint(equalToConstant: view.frame.height / 2.5),
+            detailImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 50),
+            detailImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -50),
+            detailImage.heightAnchor.constraint(equalToConstant: view.frame.height / 3.5),
             
             
-            titleProduct.topAnchor.constraint(equalTo: detailImage.bottomAnchor,constant: 10),
+            titleProduct.topAnchor.constraint(equalTo: detailImage.bottomAnchor,constant: 25),
             titleProduct.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            titleProduct.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            titleProduct.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            titleProduct.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant: 5),
+            titleProduct.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -5),
             
             
             categoryProduct.topAnchor.constraint(equalTo: titleProduct.bottomAnchor,constant: 10),
@@ -125,7 +141,7 @@ final class DetailViewController: UIViewController {
             
             
             
-            descProduct.topAnchor.constraint(equalTo: priceProduct.bottomAnchor,constant: 10),
+            descProduct.topAnchor.constraint(equalTo: priceProduct.bottomAnchor,constant: 3),
             descProduct.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             descProduct.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,constant:10),
             descProduct.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,constant: -10),
@@ -136,14 +152,9 @@ final class DetailViewController: UIViewController {
             addCartButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor,constant: 10),
             addCartButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor,constant: -10),
             addCartButton.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            addCartButton.heightAnchor.constraint(equalToConstant: view.frame.height / 15)
-            
-            
-            
-            
-            
-            
+            addCartButton.heightAnchor.constraint(equalToConstant: view.frame.height / 15),
         ])
+      
         
     }
 }
