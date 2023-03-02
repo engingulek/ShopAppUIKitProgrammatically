@@ -86,7 +86,7 @@ final class DetailViewController: UIViewController {
     
     
     private func dataConfigure(){
-        detailImage.kf.setImage(with: URL(string: selectedProduct!.image))
+       // detailImage.kf.setImage(with: URL(string: selectedProduct!.image))
         titleProduct.text = selectedProduct?.title
         categoryProduct.text = selectedProduct?.category
         priceProduct.text = selectedProduct?.price

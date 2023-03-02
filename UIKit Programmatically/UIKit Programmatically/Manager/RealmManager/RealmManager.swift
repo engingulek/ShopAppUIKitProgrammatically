@@ -105,8 +105,5 @@ class RealmManager : ObservableObject {
                 print("Error updating task \(id) to Realm: \(error)")
             }
         }
-        
     }
-    
-    
 }

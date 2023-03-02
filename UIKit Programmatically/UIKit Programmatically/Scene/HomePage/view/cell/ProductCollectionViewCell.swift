@@ -11,19 +11,19 @@ import RxSwift
 import RxCocoa
 
 
-protocol CollecrtionViewCellProtocol {
+protocol ProductCollectionViewCellProtocol {
     func addCartProduct(index:Int)
 }
 
 
- class CollectionViewCell : UICollectionViewCell {
+ class ProductCollectionViewCell: UICollectionViewCell {
 
     
       let disposeBagCell = DisposeBag()
     
    private let productionImage : UIImageView = {
         let image = UIImageView()
-        image.kf.setImage(with: URL(string: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png"))
+        /*image.kf.setImage(with: URL(string: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png"))*/
         
         return image
         
@@ -31,29 +31,18 @@ protocol CollecrtionViewCellProtocol {
     
     private let productionTitle : UILabel  = {
         let label = UILabel()
-        label.text = "Production Name"
-        label.font = UIFont.preferredFont(forTextStyle: .callout)
-        label.textAlignment = .center
-        label.numberOfLines = 2
-        return label
+        return label.productionTitle()
     }()
     
     
     private let productionCategory : UILabel  = {
         let label = UILabel()
-        label.text = "Category Name"
-        label.font = UIFont.preferredFont(forTextStyle: .footnote)
-        label.textAlignment = .center
-        
-        return label
+        return label.productionCategory()
     }()
     
     private let productionPrice : UILabel  = {
         let label = UILabel()
-        label.text = "Price"
-        label.font = UIFont.preferredFont(forTextStyle: .headline)
-        label.textAlignment = .center
-        return label
+        return label.productionPrice()
     }()
     
     
@@ -65,7 +54,7 @@ protocol CollecrtionViewCellProtocol {
      
      
      
-     var cellProtocol : CollecrtionViewCellProtocol?
+     var cellProtocol : ProductCollectionViewCellProtocol?
      var index : Int?
 
 
@@ -104,7 +93,7 @@ protocol CollecrtionViewCellProtocol {
     func configureCell(product:ProductVM){
         productionTitle.text = product.title
         productionCategory.text = product.category
-        productionImage.kf.setImage(with: URL(string: product.image))
+       // productionImage.kf.setImage(with: URL(string: product.image))
         productionPrice.text = product.price
 
     }
@@ -154,9 +143,5 @@ protocol CollecrtionViewCellProtocol {
             addCartButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             
         ])
-        
-        
-    
     }
-    
 }

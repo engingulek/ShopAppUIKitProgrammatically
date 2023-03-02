@@ -21,7 +21,6 @@ class CartViewModel {
     func getCartProductList() {
         RealmManager.realManager.getCartProductList()
         
-        
         // adette hata alırsan ayrı bir fonksiyon yaz
         self.cartProductCount.accept(list.count)
         
@@ -33,22 +32,16 @@ class CartViewModel {
         cartProductTotal.accept(Double(totalCount[0]))
        
     }
-    
-    
-    
-    
     func addCartProduct(product:CartProduct) {
         RealmManager.realManager.addCartProduct(cartProduct: product)
         // let _ = getProductList()
     }
-    
     
     func decraaseProduct(productId:ObjectId) {
         RealmManager.realManager.decraseCartProduct(id: productId)
         // let _ = getProductList()
         
     }
-    
     func increaseProduct(productId:ObjectId) {
         RealmManager.realManager.increaseCartProduct(id: productId)
         // let _ = getProductList()

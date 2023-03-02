@@ -8,18 +8,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
-final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol {
+final class HomePageViewController: UIViewController,ProductCollectionViewCellProtocol {
   
     
     private let disposeBag = DisposeBag()
     var selectedCategory = ""
     
     private lazy var viewSize = view.frame.size
-    
-
-
-    
-
     private let titleLabel : UILabel = {
         let label = UILabel()
         label.text = "Product Count"
@@ -66,7 +61,7 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
         layout.itemSize = CGSize(width: 160, height: 260)
         
         let collectionView = UICollectionView(frame: .infinite,collectionViewLayout: layout)
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(ProductCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         
         return collectionView
         
@@ -85,15 +80,9 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
         view.addSubview(warningLabel)
         view.addSubview(collectionView)
         navigationItem.title = "Home Page"
+       
         
-        // Eğer işlemler gerçekleşir ise newTextField True değerini alacak ve bu değer ile button aktif olup olmama durumu kontrol edilecek
-        /*let newTextField = textField
-            .rx
-            .text
-            .orEmpty
-            .debug("newTextField",trimOutput: true)
-            .share()
-            .throttle(.milliseconds(100), scheduler: MainScheduler.instance)*/
+
         
         textField.rx.controlEvent([.editingChanged])
             .asObservable().subscribe({ [unowned self] _ in
@@ -105,23 +94,25 @@ final class HomePageViewController: UIViewController,CollecrtionViewCellProtocol
                 
             }).disposed(by: disposeBag)
         
-       /*newTextField
-            .bind(to: button.rx.isEnabled)
-            .disposed(by: disposeBag)*/
-        
-        /*newTextField
-            .bind(to: warningLabel.rx.isHidden)
-            .disposed(by: disposeBag)*/
+
         
         HomePageViewModel.homePageViewModel.productCount.subscribe(onNext: { count in
             self.titleLabel.text = "\(count) Itens"
-            
         }).disposed(by: disposeBag)
+        
+        CartViewModel.cartViewModel.cartProductCount.subscribe(onNext : { count in
+            if count != 0 {
+                self.tabBarController?.tabBar.items?.last?.badgeValue = "\(count)"
+            }
+        }).disposed(by: disposeBag)
+        
+        
+        
         HomePageViewModel.homePageViewModel.getProductList()
         HomePageViewModel.homePageViewModel.productList
             .bind(to: collectionView
                     .rx
-                    .items(cellIdentifier: "cell", cellType: CollectionViewCell.self)) { row, element, cell in
+                    .items(cellIdentifier: "cell", cellType: ProductCollectionViewCell.self)) { row, element, cell in
                         cell.configureCell(product: element)
                         cell.contentView.isUserInteractionEnabled = false
                         cell.index = row

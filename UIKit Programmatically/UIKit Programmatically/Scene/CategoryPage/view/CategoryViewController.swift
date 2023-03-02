@@ -46,6 +46,7 @@ class CategoryViewController: UIViewController {
         view.addSubview(titleLabel)
         view.backgroundColor = .white
         configure()
+       
         
         
         

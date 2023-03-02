@@ -16,6 +16,9 @@ class TabBar: UITabBarController {
         tabBar.tintColor = .label
         tabBar.backgroundColor = .white
         setupVC()
+        
+        
+        
     }
     
     
@@ -31,6 +34,7 @@ class TabBar: UITabBarController {
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
         rootViewController.navigationItem.title = title
+       
         return navController
     }
     
