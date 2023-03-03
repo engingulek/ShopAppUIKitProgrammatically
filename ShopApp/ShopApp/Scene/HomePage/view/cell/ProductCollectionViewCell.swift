@@ -12,7 +12,7 @@ import RxCocoa
 
 
 protocol ProductCollectionViewCellProtocol {
-    func addCartProduct(index:Int)
+    func addCartProduct(product:ProductVM)
 }
 
 
@@ -56,6 +56,7 @@ protocol ProductCollectionViewCellProtocol {
      
      var cellProtocol : ProductCollectionViewCellProtocol?
      var index : Int?
+     var product : ProductVM?
 
 
     override init(frame: CGRect) {
@@ -77,7 +78,7 @@ protocol ProductCollectionViewCellProtocol {
         
         
         addCartButton.rx.tap.subscribe { _ in
-            self.cellProtocol?.addCartProduct(index: self.index!)
+            self.cellProtocol?.addCartProduct(product: self.product!)
         }.disposed(by: disposeBagCell)
     }
      

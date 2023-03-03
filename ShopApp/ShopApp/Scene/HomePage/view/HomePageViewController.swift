@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 final class HomePageViewController: UIViewController,ProductCollectionViewCellProtocol {
   
+  
     
     private let disposeBag = DisposeBag()
     var selectedCategory = ""
@@ -100,7 +101,7 @@ final class HomePageViewController: UIViewController,ProductCollectionViewCellPr
             self.titleLabel.text = "\(count) Itens"
         }).disposed(by: disposeBag)
         
-        CartViewModel.cartViewModel.cartProductCount.subscribe(onNext : { count in
+        CartViewModel.cartViewModel.getCartProductListCount().subscribe(onNext : { count in
             if count != 0 {
                 self.tabBarController?.tabBar.items?.last?.badgeValue = "\(count)"
             }
@@ -115,7 +116,9 @@ final class HomePageViewController: UIViewController,ProductCollectionViewCellPr
                     .items(cellIdentifier: "cell", cellType: ProductCollectionViewCell.self)) { row, element, cell in
                         cell.configureCell(product: element)
                         cell.contentView.isUserInteractionEnabled = false
-                        cell.index = row
+                        
+                        cell.product = element
+                    
                         cell.cellProtocol = self
                     }
                     .disposed(by: disposeBag)
@@ -140,9 +143,17 @@ final class HomePageViewController: UIViewController,ProductCollectionViewCellPr
    
     
     
-    func addCartProduct(index: Int) {
-        print(index)
+    func addCartProduct(product: ProductVM) {
+        print(product)
+        let newCartProduct =  CartProduct(value: [
+            "id":product.id,
+            "title":product.title,
+            //"price":Double(product.price)!,
+            "category":product.category,
+            "image":product.image])
+        CartViewModel.cartViewModel.addCartProduct(product: newCartProduct)
     }
+    
     
     
     @objc func searchList() {

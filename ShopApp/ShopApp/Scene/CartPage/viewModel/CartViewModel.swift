@@ -11,30 +11,44 @@ import RxCocoa
 import RealmSwift
 class CartViewModel {
     var cartProductList : BehaviorRelay<[CartVM]> = .init(value: [])
-    var cartProductCount :  BehaviorRelay<Int> = .init(value: 0)
+    
     var cartProductTotal : BehaviorRelay<Double> = .init(value: 0)
     let disposed = DisposeBag()
     static let cartViewModel = CartViewModel()
     let list = RealmManager.realManager.cartProductList.map(CartVM.init)
     
-    
-    func getCartProductList() {
+    func getRealManagerList() {
         RealmManager.realManager.getCartProductList()
-        
-        // adette hata alırsan ayrı bir fonksiyon yaz
-        self.cartProductCount.accept(list.count)
-        
+        let list = RealmManager.realManager.cartProductList.map(CartVM.init)
         self.cartProductList.accept(list)
     }
     
-    func getCartProductTotal(){
+    func getCartProductList() -> Observable<[CartVM]> {
+        RealmManager.realManager.getCartProductList()
+        let list = RealmManager.realManager.cartProductList.map(CartVM.init)
+        self.cartProductList.accept(list)
+        return self.cartProductList.map{$0.map{CartVM(cartProduct: $0.cartProduct)}}
+    }
+    
+    
+    func getCartProductListCount()->Observable<Int> {
+        RealmManager.realManager.getCartProductList()
+        let list = RealmManager.realManager.cartProductList.map(CartVM.init)
+        self.cartProductList.accept(list)
+    
+        return cartProductList.map{$0.count}
+    }
+    
+
+    
+   /* func getCartProductTotal(){
         let totalCount = list.map{Int($0.price)! * $0.piece}
         cartProductTotal.accept(Double(totalCount[0]))
        
-    }
+    }*/
     func addCartProduct(product:CartProduct) {
+        
         RealmManager.realManager.addCartProduct(cartProduct: product)
-        // let _ = getProductList()
     }
     
     func decraaseProduct(productId:ObjectId) {
@@ -64,10 +78,10 @@ struct CartVM {
     var title:String {
         cartProduct.title
     }
-    var price:String {
+   /*var price:String {
         
-        "$\(cartProduct.price)"
-    }
+       "$\(String(describing: cartProduct.price))"
+    }*/
     var category:String {
         cartProduct.category
     }

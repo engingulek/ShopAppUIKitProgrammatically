@@ -30,17 +30,19 @@ class RealmManager : ObservableObject {
     
     func getCartProductList(){
         if let localRealm = localRealm {
-            let allCartProductList = localRealm.objects(CartProduct.self).sorted(byKeyPath: "completed")
+            let allCartProductList = localRealm.objects(CartProduct.self)
             cartProductList = []
             allCartProductList.forEach { task in
                 cartProductList.append(task)
             }
+            print("RealmManager CartList : \(cartProductList)")
         }
     }
     
     func addCartProduct(cartProduct : CartProduct) {
         
         if let localRealm = localRealm {
+            
             do{
                 try localRealm.write{
                     localRealm.add(cartProduct)

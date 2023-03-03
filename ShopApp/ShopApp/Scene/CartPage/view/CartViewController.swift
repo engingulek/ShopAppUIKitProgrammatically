@@ -58,18 +58,14 @@ class CartViewController: UIViewController {
         amountView.addSubview(amountLabel)
         configure()
         
-        
-       // HomePageViewModel.homePageViewModel.getProductList()
-        var testList : BehaviorRelay<[String]> = .init(value: [])
-        let  list = ["Deneme1", "Deneme2", "Deneme 3","Deneme 3","Deneme 3"]
-        testList.accept(list)
-        
-        testList
+
+        CartViewModel.cartViewModel.getCartProductList()
+     
             .bind(to: collectionView
                     .rx
                     .items(cellIdentifier: "cell", cellType: CartCollectionViewCell.self)) { row, element, cell in
                        // cell.configureCell(product: element)
-                        cell.configureCell(testString: element)
+                       // cell.configureCell(testString: element)
                         cell.backgroundColor = .green
                         cell.contentView.isUserInteractionEnabled = false
                     }
