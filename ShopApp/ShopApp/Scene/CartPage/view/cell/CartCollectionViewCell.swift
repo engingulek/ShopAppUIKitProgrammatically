@@ -67,8 +67,11 @@ class CartCollectionViewCell : UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(testString : String) {
-        
+    func configureCell(cartProduct : CartVM) {
+        productionTitle.text = cartProduct.title
+        productionCategory.text = cartProduct.category
+        productionPrice.text = "$200"
+        productPiece.text = "\(cartProduct.piece)"
     }
     
     override func layoutSubviews() {

@@ -17,11 +17,7 @@ class CartViewModel {
     static let cartViewModel = CartViewModel()
     let list = RealmManager.realManager.cartProductList.map(CartVM.init)
     
-    func getRealManagerList() {
-        RealmManager.realManager.getCartProductList()
-        let list = RealmManager.realManager.cartProductList.map(CartVM.init)
-        self.cartProductList.accept(list)
-    }
+
     
     func getCartProductList() -> Observable<[CartVM]> {
         RealmManager.realManager.getCartProductList()
@@ -39,6 +35,20 @@ class CartViewModel {
         return cartProductList.map{$0.count}
     }
     
+    func getCartProductTotal() -> Observable<Double> {
+        RealmManager.realManager.getCartProductList()
+        let list = RealmManager.realManager.cartProductList.map(CartVM.init)
+        self.cartProductList.accept(list)
+    
+        return cartProductList.map{Double($0.reduce(0, {$0 + (200 * $1.piece)}))}
+        
+      /* let totalCount =  list.reduce(0, {$0 + (200 * $1.piece)})
+        
+        cartProductTotal.accept(Double(totalCount))
+        print("Total Control : \(cartProductTotal.value)")
+        return self.cartProductTotal.element(at: 0)*/
+        
+    }
 
     
    /* func getCartProductTotal(){
@@ -49,6 +59,7 @@ class CartViewModel {
     func addCartProduct(product:CartProduct) {
         
         RealmManager.realManager.addCartProduct(cartProduct: product)
+        let _ = getCartProductList()
     }
     
     func decraaseProduct(productId:ObjectId) {

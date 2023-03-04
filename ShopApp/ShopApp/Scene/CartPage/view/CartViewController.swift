@@ -60,17 +60,29 @@ class CartViewController: UIViewController {
         
 
         CartViewModel.cartViewModel.getCartProductList()
-     
             .bind(to: collectionView
                     .rx
                     .items(cellIdentifier: "cell", cellType: CartCollectionViewCell.self)) { row, element, cell in
                        // cell.configureCell(product: element)
                        // cell.configureCell(testString: element)
-                        cell.backgroundColor = .green
+                        cell.configureCell(cartProduct: element)
+                        //cell.backgroundColor = .green
                         cell.contentView.isUserInteractionEnabled = false
                     }
                     .disposed(by: disposeBag)
+        
+        
+        CartViewModel.cartViewModel.getCartProductTotal()
+            .subscribe(onNext : { total in
+                self.amountLabel.text = "$\(total)"
+            }).disposed(by: disposeBag)
        
+        
+        /*CartViewModel.cartViewModel.getCartProductListCount().subscribe(onNext : { count in
+            if count != 0 {
+                self.amountLabel.text = "\(count)"
+            }
+        }).disposed(by: disposeBag)*/
 
         
       
