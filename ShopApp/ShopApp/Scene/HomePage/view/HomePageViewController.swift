@@ -145,13 +145,9 @@ final class HomePageViewController: UIViewController,ProductCollectionViewCellPr
     
     func addCartProduct(product: ProductVM) {
         print(product)
-        let newCartProduct =  CartProduct(value: [
-            "id":product.id,
-            "title":product.title,
-            //"price":Double(product.price)!,
-            "category":product.category,
-            "image":product.image])
-        CartViewModel.cartViewModel.addCartProduct(product: newCartProduct)
+        
+      
+        CartViewModel.cartViewModel.addCartProduct(product: product)
     }
     
     

@@ -39,37 +39,40 @@ class CartViewModel {
         RealmManager.realManager.getCartProductList()
         let list = RealmManager.realManager.cartProductList.map(CartVM.init)
         self.cartProductList.accept(list)
-    
         return cartProductList.map{Double($0.reduce(0, {$0 + (200 * $1.piece)}))}
-        
-      /* let totalCount =  list.reduce(0, {$0 + (200 * $1.piece)})
-        
-        cartProductTotal.accept(Double(totalCount))
-        print("Total Control : \(cartProductTotal.value)")
-        return self.cartProductTotal.element(at: 0)*/
         
     }
 
-    
-   /* func getCartProductTotal(){
-        let totalCount = list.map{Int($0.price)! * $0.piece}
-        cartProductTotal.accept(Double(totalCount[0]))
-       
-    }*/
-    func addCartProduct(product:CartProduct) {
+    func addCartProduct(product:ProductVM) {
+        let newCartProduct =  CartProduct(value: [
+            
+            "id":product.id,
+            "title":product.title,
+            //"price":Double(product.price)!,
+            "category":product.category,
+            "image":product.image])
         
-        RealmManager.realManager.addCartProduct(cartProduct: product)
-        let _ = getCartProductList()
+        print("Test Product \(newCartProduct)")
+        
+        RealmManager.realManager.getCartProductList()
+        let list = RealmManager.realManager.cartProductList.map(CartVM.init)
+        if list.contains(where: {$0.id == product.id}) {
+            increaseProduct(productId: product.id)
+        }else{
+            RealmManager.realManager.addCartProduct(cartProduct: newCartProduct)
+            
+        }
+       
     }
     
-    func decraaseProduct(productId:ObjectId) {
+    func decraaseProduct(productId:Int) {
         RealmManager.realManager.decraseCartProduct(id: productId)
         // let _ = getProductList()
         
     }
-    func increaseProduct(productId:ObjectId) {
+    func increaseProduct(productId:Int) {
         RealmManager.realManager.increaseCartProduct(id: productId)
-        // let _ = getProductList()
+        let _ = getCartProductList()
     }
     
     func deleteProduct(productId:ObjectId) {
