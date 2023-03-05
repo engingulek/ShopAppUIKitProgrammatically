@@ -104,6 +104,8 @@ final class HomePageViewController: UIViewController,ProductCollectionViewCellPr
         CartViewModel.cartViewModel.getCartProductListCount().subscribe(onNext : { count in
             if count != 0 {
                 self.tabBarController?.tabBar.items?.last?.badgeValue = "\(count)"
+            }else {
+                self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = nil
             }
         }).disposed(by: disposeBag)
         

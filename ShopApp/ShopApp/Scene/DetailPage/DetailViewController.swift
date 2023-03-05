@@ -7,10 +7,12 @@
 
 import UIKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 final class DetailViewController: UIViewController {
     
     var selectedProduct : ProductVM?
-    
+    let disposeBag = DisposeBag()
     
     //MARK: - UI'ların extension içerisinde tanımlanma örneği
     private let detailImage : UIImageView = {
@@ -80,6 +82,10 @@ final class DetailViewController: UIViewController {
         
         dataConfigure()
         configure()
+        
+        addCartButton.rx.tap.subscribe{ _ in
+            CartViewModel.cartViewModel.addCartProduct(product: self.selectedProduct!)
+        }.disposed(by: disposeBag)
         
     }
     

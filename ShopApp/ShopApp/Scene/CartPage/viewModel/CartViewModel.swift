@@ -60,6 +60,7 @@ class CartViewModel {
             increaseProduct(productId: product.id)
         }else{
             RealmManager.realManager.addCartProduct(cartProduct: newCartProduct)
+            let _ = getCartProductList()
             
         }
        
