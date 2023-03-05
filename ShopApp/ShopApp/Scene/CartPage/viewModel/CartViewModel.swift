@@ -76,8 +76,9 @@ class CartViewModel {
         let _ = getCartProductList()
     }
     
-    func deleteProduct(productId:ObjectId) {
+    func deleteProduct(productId:Int) {
         RealmManager.realManager.deleteProduct(id: productId)
+        let _ = getCartProductList()
         
     }
 }

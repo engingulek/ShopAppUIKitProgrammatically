@@ -127,6 +127,7 @@ class CartViewController: UIViewController {
 extension CartViewController : CartCollectionViewCellProtocol {
     func trashProductAction(id: Int) {
         print("Product Trash : \(id)")
+        CartViewModel.cartViewModel.deleteProduct(productId: id)
     }
     
     func decreaseProductAction(id: Int) {

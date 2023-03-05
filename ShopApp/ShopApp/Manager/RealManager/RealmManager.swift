@@ -94,10 +94,10 @@ class RealmManager : ObservableObject {
     }
     
     
-    func deleteProduct(id:ObjectId){
+    func deleteProduct(id:Int){
         if let localRealm = localRealm{
             do{
-                let productDelete = localRealm.objects(CartProduct.self).filter(NSPredicate(format: "id == %@", id))
+                let productDelete = localRealm.objects(CartProduct.self).filter(NSPredicate(format: "id == %ld", id))
                 guard !productDelete.isEmpty else {return}
                 
                 try localRealm.write{
