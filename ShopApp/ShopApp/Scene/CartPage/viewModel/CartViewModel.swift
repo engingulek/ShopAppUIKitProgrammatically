@@ -67,10 +67,11 @@ class CartViewModel {
     
     func decraaseProduct(productId:Int) {
         RealmManager.realManager.decraseCartProduct(id: productId)
-        // let _ = getProductList()
+         let _ = getCartProductList()
         
     }
     func increaseProduct(productId:Int) {
+        print(productId)
         RealmManager.realManager.increaseCartProduct(id: productId)
         let _ = getCartProductList()
     }

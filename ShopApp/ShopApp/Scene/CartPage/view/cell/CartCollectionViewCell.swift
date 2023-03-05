@@ -10,9 +10,17 @@ import Kingfisher
 import RxSwift
 import RxCocoa
 
+protocol CartCollectionViewCellProtocol {
+    func increaseProductAction(id:Int)
+    func decreaseProductAction(id:Int)
+    func trashProductAction(id:Int)
+}
 
 
 class CartCollectionViewCell : UICollectionViewCell {
+    
+    let disposeBagCell = DisposeBag()
+    
     private let productionImage : UIImageView = {
         let image = UIImageView()
         image.image = UIImage(systemName: "figure.walk")
@@ -48,8 +56,18 @@ class CartCollectionViewCell : UICollectionViewCell {
     
     private let decreaseButton : UIButton = {
         let button = UIButton()
+     
         return button.pieceActionButton(actionTypeText: "-")
     }()
+    
+    private let trashButton : UIButton = {
+        let button = UIButton()
+        return button.trashButton()
+    }()
+    
+    var cellProtocol : CartCollectionViewCellProtocol?
+    var id: Int?
+    var trashHidden = true
     
     
     override init(frame: CGRect) {
@@ -61,6 +79,21 @@ class CartCollectionViewCell : UICollectionViewCell {
         addSubview(productPiece)
         addSubview(increaseButton)
         addSubview(decreaseButton)
+        addSubview(trashButton)
+        
+        
+        
+        increaseButton.rx.tap.subscribe { _ in
+            self.cellProtocol?.increaseProductAction(id: self.id!)
+        }.disposed(by: disposeBagCell)
+        
+        decreaseButton.rx.tap.subscribe{ _ in
+            self.cellProtocol?.decreaseProductAction(id: self.id!)
+        }.disposed(by: disposeBagCell)
+        
+        trashButton.rx.tap.subscribe{ _ in
+            self.cellProtocol?.trashProductAction(id: self.id!)
+        }.disposed(by: disposeBagCell)
     }
     
     required init?(coder: NSCoder) {
@@ -72,6 +105,14 @@ class CartCollectionViewCell : UICollectionViewCell {
         productionCategory.text = cartProduct.category
         productionPrice.text = "$200"
         productPiece.text = "\(cartProduct.piece)"
+        if cartProduct.piece == 1 {
+            trashButton.isHidden = false
+            decreaseButton.isHidden = true
+        }else {
+            trashButton.isHidden = true
+            decreaseButton.isHidden = false
+        }
+        
     }
     
     override func layoutSubviews() {
@@ -81,7 +122,9 @@ class CartCollectionViewCell : UICollectionViewCell {
         productionPrice.translatesAutoresizingMaskIntoConstraints = false
         productPiece.translatesAutoresizingMaskIntoConstraints = false
         increaseButton.translatesAutoresizingMaskIntoConstraints = false
-        decreaseButton.translatesAutoresizingMaskIntoConstraints = false
+       decreaseButton.translatesAutoresizingMaskIntoConstraints = false
+        trashButton.translatesAutoresizingMaskIntoConstraints = false
+        
         
         
         NSLayoutConstraint.activate([
@@ -101,9 +144,16 @@ class CartCollectionViewCell : UICollectionViewCell {
             
             productionPrice.topAnchor.constraint(equalTo: productionCategory.safeAreaLayoutGuide.topAnchor,constant: 20),
             productionPrice.leadingAnchor.constraint(equalTo: productionImage.safeAreaLayoutGuide.trailingAnchor,constant: 20),
+         
             
             decreaseButton.topAnchor.constraint(equalTo: productionPrice.safeAreaLayoutGuide.topAnchor,constant: 30),
             decreaseButton.leadingAnchor.constraint(equalTo: productionImage.safeAreaLayoutGuide.trailingAnchor,constant: 20),
+            
+            
+            trashButton.topAnchor.constraint(equalTo: productionPrice.safeAreaLayoutGuide.topAnchor,constant: 35),
+            trashButton.leadingAnchor.constraint(equalTo: productionImage.safeAreaLayoutGuide.trailingAnchor,constant: 20),
+            
+        
             
             productPiece.topAnchor.constraint(equalTo: productionPrice.safeAreaLayoutGuide.topAnchor,constant: 35),
             productPiece.leadingAnchor.constraint(equalTo: decreaseButton.safeAreaLayoutGuide.trailingAnchor,constant: 20),

@@ -33,6 +33,15 @@ extension UIButton {
         button.layer.cornerRadius = 15
         return button
     }
+    
+    func trashButton() -> UIButton {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(systemName: "trash.fill"), for: .normal)
+        button.setTitleColor(.red, for: .normal)
+
+        return button
+      
+    }
 }
 
 extension UILabel  {

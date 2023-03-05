@@ -68,6 +68,8 @@ class CartViewController: UIViewController {
                         cell.configureCell(cartProduct: element)
                         //cell.backgroundColor = .green
                         cell.contentView.isUserInteractionEnabled = false
+                        cell.id = element.id
+                        cell.cellProtocol = self
                     }
                     .disposed(by: disposeBag)
         
@@ -120,5 +122,23 @@ class CartViewController: UIViewController {
             amountLabel.centerXAnchor.constraint(equalTo: amountView.safeAreaLayoutGuide.centerXAnchor)
         ])
     }
+}
+
+extension CartViewController : CartCollectionViewCellProtocol {
+    func trashProductAction(id: Int) {
+        print("Product Trash : \(id)")
+    }
+    
+    func decreaseProductAction(id: Int) {
+        print("Decrease Cell : \(id)")
+        CartViewModel.cartViewModel.decraaseProduct(productId: id)
+    }
+    
+    func increaseProductAction(id: Int) {
+        CartViewModel.cartViewModel.increaseProduct(productId: id)
+        print("Increase Cell : \(id)")
+    }
+    
+    
 }
 

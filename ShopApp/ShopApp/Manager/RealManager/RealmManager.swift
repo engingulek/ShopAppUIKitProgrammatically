@@ -78,7 +78,7 @@ class RealmManager : ObservableObject {
         
         if let localRealm = localRealm{
             do{
-                let updateCartProduct = localRealm.objects(CartProduct.self).filter(NSPredicate(format: "id == %@", id))
+                let updateCartProduct = localRealm.objects(CartProduct.self).filter(NSPredicate(format: "id == %ld", id))
                 guard !updateCartProduct.isEmpty else {return}
                 
                 try localRealm.write{
