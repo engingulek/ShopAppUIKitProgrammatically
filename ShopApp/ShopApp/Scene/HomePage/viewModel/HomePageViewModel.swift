@@ -30,10 +30,10 @@ class HomePageViewModel {
     }
     
     func getProductList()   {
-        whenDoNotInternetConnection()
+        /*whenDoNotInternetConnection()
         self.productList.accept(testList.map(ProductVM.init))
-        self.productCount.accept(testList.count)
-        /*HomePageService.homePageService.fetchProduct { response in
+        self.productCount.accept(testList.count)*/
+        HomePageService.homePageService.fetchProduct { response in
             switch response {
             case .success(let list):
                 self.productList.accept(list.map(ProductVM.init))
@@ -42,7 +42,7 @@ class HomePageViewModel {
                 self.productList.accept([])
                 print(error)
             }
-        }*/
+        }
     }
     
     

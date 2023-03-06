@@ -35,7 +35,7 @@ final class HomePageViewController: UIViewController,ProductCollectionViewCellPr
     
     private let warningLabel : UILabel = {
         let label = UILabel()
-        label.text = "Must be at least 6 characters"
+        label.text = "Product not found"
         label.textColor = .red
         label.textAlignment = .left
         label.isHidden = true
@@ -99,6 +99,11 @@ final class HomePageViewController: UIViewController,ProductCollectionViewCellPr
         
         HomePageViewModel.homePageViewModel.productCount.subscribe(onNext: { count in
             self.titleLabel.text = "\(count) Itens"
+            if count == 0 {
+                self.warningLabel.isHidden = false
+            }else{
+                self.warningLabel.isHidden = true
+            }
         }).disposed(by: disposeBag)
         
         CartViewModel.cartViewModel.getCartProductListCount().subscribe(onNext : { count in

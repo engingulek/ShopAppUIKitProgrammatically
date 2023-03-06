@@ -138,8 +138,9 @@ class CartCollectionViewCell : UICollectionViewCell {
             
             productionTitle.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor ,constant: 10),
             productionTitle.leadingAnchor.constraint(equalTo: productionImage.safeAreaLayoutGuide.trailingAnchor,constant: 20),
+            productionTitle.rightAnchor.constraint(equalTo: contentView.rightAnchor,constant: -10),
             
-            productionCategory.topAnchor.constraint(equalTo: productionTitle.safeAreaLayoutGuide.topAnchor,constant: 20),
+            productionCategory.topAnchor.constraint(equalTo: productionTitle.safeAreaLayoutGuide.topAnchor,constant: 45),
             productionCategory.leadingAnchor.constraint(equalTo: productionImage.safeAreaLayoutGuide.trailingAnchor,constant: 20),
             
             productionPrice.topAnchor.constraint(equalTo: productionCategory.safeAreaLayoutGuide.topAnchor,constant: 20),
