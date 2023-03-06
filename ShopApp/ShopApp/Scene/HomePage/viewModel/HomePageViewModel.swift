@@ -73,11 +73,7 @@ class HomePageViewModel {
                 print(error)
             }
         }
-        /*self.productList.subscribe(onNext : { list in
-            let filterList = list.filter{$0.title.contains(searchText)}
-            self.productList.accept(filterList)
-            
-        }).disposed(by: disposed )*/
+
     }
     
     

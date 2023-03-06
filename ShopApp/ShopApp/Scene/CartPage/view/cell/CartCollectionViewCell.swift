@@ -23,7 +23,7 @@ class CartCollectionViewCell : UICollectionViewCell {
     
     private let productionImage : UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "figure.walk")
+       // image.image = UIImage(systemName: "figure.walk")
         /*image.kf.setImage(with: URL(string: "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/0347d890-b837-475f-a1eb-850d09e7bd28/air-force-1-07-premium-ayakkab%C4%B1s%C4%B1-Jzt4p7.png"))*/
         return image
     }()
@@ -101,6 +101,7 @@ class CartCollectionViewCell : UICollectionViewCell {
     }
     
     func configureCell(cartProduct : CartVM) {
+        productionImage.kf.setImage(with: URL(string: cartProduct.image))
         productionTitle.text = cartProduct.title
         productionCategory.text = cartProduct.category
         productionPrice.text = "$\(cartProduct.price)"

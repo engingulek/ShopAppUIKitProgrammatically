@@ -94,7 +94,7 @@ protocol ProductCollectionViewCellProtocol {
     func configureCell(product:ProductVM){
         productionTitle.text = product.title
         productionCategory.text = product.category
-       // productionImage.kf.setImage(with: URL(string: product.image))
+        productionImage.kf.setImage(with: URL(string: product.image))
         productionPrice.text = "$\(product.price)"
 
     }
