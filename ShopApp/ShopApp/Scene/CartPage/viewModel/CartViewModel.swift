@@ -39,16 +39,17 @@ class CartViewModel {
         RealmManager.realManager.getCartProductList()
         let list = RealmManager.realManager.cartProductList.map(CartVM.init)
         self.cartProductList.accept(list)
-        return cartProductList.map{Double($0.reduce(0, {$0 + (200 * $1.piece)}))}
+        return cartProductList.map{Double($0.reduce(0, {$0 + ($1.price * Double($1.piece))}))}
         
     }
 
     func addCartProduct(product:ProductVM) {
+        print("addCartProduct func \(product.price)")
         let newCartProduct =  CartProduct(value: [
             
             "id":product.id,
             "title":product.title,
-            //"price":Double(product.price)!,
+            "price":product.price,
             "category":product.category,
             "image":product.image])
         
@@ -95,10 +96,10 @@ struct CartVM {
     var title:String {
         cartProduct.title
     }
-   /*var price:String {
+   var price:Double {
         
-       "$\(String(describing: cartProduct.price))"
-    }*/
+        cartProduct.price!
+    }
     var category:String {
         cartProduct.category
     }

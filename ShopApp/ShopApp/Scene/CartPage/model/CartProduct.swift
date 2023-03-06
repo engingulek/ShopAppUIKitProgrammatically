@@ -10,7 +10,7 @@ import RealmSwift
 class CartProduct : Object,ObjectKeyIdentifiable{
     @Persisted(primaryKey: true) var id:Int?
     @Persisted var title = ""
-    //@Persisted var price : Double?
+    @Persisted var price : Double?
     @Persisted var category = ""
     @Persisted var image = ""
     @Persisted var piece = 1

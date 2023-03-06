@@ -103,7 +103,7 @@ class CartCollectionViewCell : UICollectionViewCell {
     func configureCell(cartProduct : CartVM) {
         productionTitle.text = cartProduct.title
         productionCategory.text = cartProduct.category
-        productionPrice.text = "$200"
+        productionPrice.text = "$\(cartProduct.price)"
         productPiece.text = "\(cartProduct.piece)"
         if cartProduct.piece == 1 {
             trashButton.isHidden = false

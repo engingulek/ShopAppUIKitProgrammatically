@@ -93,9 +93,9 @@ struct ProductVM  {
     var title:String {
         product.title!
     }
-    var price:String {
+    var price:Double {
         
-        "$\(product.price!)"
+        product.price!
     }
     var category:String {
         product.category!

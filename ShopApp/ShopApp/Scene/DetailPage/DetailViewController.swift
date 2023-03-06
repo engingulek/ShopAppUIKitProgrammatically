@@ -95,7 +95,7 @@ final class DetailViewController: UIViewController {
        // detailImage.kf.setImage(with: URL(string: selectedProduct!.image))
         titleProduct.text = selectedProduct?.title
         categoryProduct.text = selectedProduct?.category
-        priceProduct.text = selectedProduct?.price
+        priceProduct.text = "\(String(describing: selectedProduct?.price))"
         descProduct.text = selectedProduct?.description
         
     }

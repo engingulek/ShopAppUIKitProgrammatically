@@ -95,7 +95,7 @@ protocol ProductCollectionViewCellProtocol {
         productionTitle.text = product.title
         productionCategory.text = product.category
        // productionImage.kf.setImage(with: URL(string: product.image))
-        productionPrice.text = product.price
+        productionPrice.text = "$\(product.price)"
 
     }
     override func layoutSubviews() {
